@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Quiz - Taylor Swift: The Eras Tour</title>
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+
+  <!-- Favicons -->
+  <link href="assets/img/favicon.png" rel="icon">
+  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Noto+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Questrial:wght@400&display=swap" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+  <!-- Main CSS File -->
+  <link href="assets/css/main.css" rel="stylesheet">
+
+  <!-- =======================================================
+  * Template Name: EasyFolio
+  * Template URL: https://bootstrapmade.com/easyfolio-bootstrap-portfolio-template/
+  * Updated: Feb 21 2025 with Bootstrap v5.3.3
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+
+  <!-- Firebase 核心 SDK -->
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+
+<script>
+  //自己的 Firebase 設定
+  const firebaseConfig = {
+  apiKey: "AIzaSyBGsyclJYiRAuAZzAQP2U9_0f22R-v6BIY",
+  authDomain: "the-eras-tour-quiz.firebaseapp.com",
+  projectId: "the-eras-tour-quiz",
+  storageBucket: "the-eras-tour-quiz.firebasestorage.app",
+  messagingSenderId: "862441302757",
+  appId: "1:862441302757:web:f743d279b314d8345e820c",
+  measurementId: "G-HRQ5HGB1PJ"
+};
+
+  // 初始化 Firebase
+  firebase.initializeApp(firebaseConfig);
+  const database = firebase.database();
+</script>
+
+</head>
+
+<body class="service-details-page">
+
+  <header id="header" class="header d-flex align-items-center sticky-top">
+    <div class="header-container container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
+
+      <a href="index.html" class="logo d-flex align-items-center me-auto me-xl-0">
+        <!-- Uncomment the line below if you also wish to use an image logo -->
+        <!-- <img src="assets/img/logo.webp" alt=""> -->
+        <h1 class="sitename">The Eras Tour</h1>
+      </a>
+
+      <nav id="navmenu" class="navmenu">
+        <ul>
+          <li><a href="index.html#hero" class="active">Home</a></li>
+          <li><a href="index.html#about">About</a></li>
+          <li><a href="index.html#resume">Timeline</a></li>
+          <li><a href="index.html#portfolio">Eras</a></li>
+          <li><a href="index.html#testimonials">Team</a></li>
+          <li class="dropdown"><a href="index.html#services"><span>Highlights</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+            <ul>
+              <li><a href="#">Special Guests</a></li>
+              <li class="dropdown"><a href="#"><span>Behind the Scenes</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+                <ul>
+                  <li><a href="#">Rehearsals</a></li>
+                  <li><a href="#">Stage Design</a></li>
+                  <li><a href="#">Costumes</a></li>
+                  <li><a href="#">Fan Reactions</a></li>
+                  <li><a href="#">Taylor’s Messages</a></li>
+                </ul>
+              </li>
+              <li><a href="#">Awards</a></li>
+              <li><a href="#">Press</a></li>
+              <li><a href="#">Tour Stats</a></li>
+            </ul>
+          </li>
+          <li><a href="index.html#faq">Q&A</a></li>
+          <li><a href="index.html#contact">Contact</a></li>
+        </ul>
+        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+      </nav>
+
+      <div class="header-social-links">
+        <a href="https://twitter.com/taylorswift13" class="twitter"><i class="bi bi-twitter-x"></i></a>
+        <a href="https://www.facebook.com/TaylorSwift" class="facebook"><i class="bi bi-facebook"></i></a>
+        <a href="https://www.instagram.com/taylorswift/" class="instagram"><i class="bi bi-instagram"></i></a>
+        <a href="https://www.taylorswift.com/" class="linkedin"><i class="bi bi-linkedin"></i></a>
+      </div>
+
+    </div>
+</header>
+  <main class="main">
+
+    <!-- Page Title -->
+    <div class="page-title">
+      <div class="breadcrumbs">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="index.html"><i class="bi bi-house"></i> Home</a></li>
+            <li class="breadcrumb-item active current">Quiz</li>
+          </ol>
+        </nav>
+      </div>
+
+      <div class="title-wrapper">
+        <h1>What's Your Era?</h1>
+        <p>Take our fun quiz to discover which Taylor Swift Era matches your personality!</p>
+      </div>
+    <!-- Era Quiz Section -->
+    <section class="era-quiz-section">
+      <div class="container">
+
+                <div class="row">
+          <div class="col-lg-8 mx-auto">
+            <div class="quiz-container bg-white rounded shadow p-4">
+              <div class="start-screen" id="startScreen">
+                <h3 class="mb-4">Discover Your Era Style</h3>
+                <!-- 圓形圖片區塊 -->
+                <div class="d-flex justify-content-center mb-4">
+                  <img src="./images/t3.jpg" alt="Era Cover" class="rounded-circle shadow" style="width: 180px; height: 180px; object-fit: cover; border: 4px solid #ddd;">
+                </div>
+                  <p>From sparkly beginnings to moody midnights, every Era tells a story. <br>
+                  Are you a poetic soul, a fearless dreamer, or a glittery icon? </p>
+                <p class="mb-4">Ready to explore your inner Era?</p>
+                
+                <button class="btn btn-primary" id="startBtn">Start Quiz</button>
+              </div>
+
+              
+              <div id="quizContent" style="display: none;">
+                <div class="progress mb-4">
+                  <div class="progress-bar bg-primary" id="progressBar" role="progressbar" style="width: 0%"></div>
+                </div>
+                
+                <div id="questionContainer" class="mb-4"></div>
+                
+                <div class="text-center">
+                  <button class="btn btn-primary" id="nextBtn" style="display: none;">Next Question</button>
+                </div>
+              </div>
+            </div>
+            
+            <div class="result-container bg-white rounded shadow p-4 mt-4" id="resultContainer" style="display: none;">
+              <h3 class="result-title" id="resultTitle">You are a <span id="eraName"></span>!</h3>
+              
+              <div class="row align-items-center my-4">
+                <div class="col-md-5">
+                  <img src="assets/img/eras/default-era.jpg" alt="Era Result" class="img-fluid rounded-circle border border-3 border-primary" id="resultImage">
+                </div>
+                <div class="col-md-7">
+                  <p class="result-description" id="resultDescription"></p>
+                </div>
+              </div>
+              
+                <!-- Era Quiz Playlist -->
+                <div class="playlist-section bg-light p-3 rounded mt-3">
+                <h4 class="fs-5">Your Playlist</h4>
+                <p class="small text-muted">Based on your result, here are some songs you might enjoy.</p>
+                
+                <div class="playlist-container" id="playlistContainer">
+                  <ul class="list-group" id="songList">
+                  <!-- Songs will be dynamically populated here -->
+                  </ul>
+                </div>
+                
+                <div class="text-center mt-3">
+                  <a href="#" class="btn btn-sm btn-outline-primary" id="spotifyLink" target="_blank">
+                  <i class="bi bi-spotify me-2"></i>Listen on Spotify
+                  </a>
+                </div>
+                <div id="trackPlayer" class="mt-3"></div>
+                </div>
+
+
+              <div class="share-section bg-light p-3 rounded">
+                <h4 class="fs-5">Share Your Result</h4>
+                <p class="small text-muted">Share with your friends to see if you're in the same Era!</p>
+                <div class="d-flex justify-content-center gap-3 my-3">
+                  <button class="btn btn-sm btn-outline-primary rounded-circle" onclick="shareResult('facebook')"><i class="bi bi-facebook"></i></button>
+                  <button class="btn btn-sm btn-outline-primary rounded-circle" onclick="shareResult('twitter')"><i class="bi bi-twitter-x"></i></button>
+                  <button class="btn btn-sm btn-outline-primary rounded-circle" onclick="shareResult('instagram')"><i class="bi bi-instagram"></i></button>
+                  <button class="btn btn-sm btn-outline-primary rounded-circle" onclick="copyLink()"><i class="bi bi-link-45deg"></i></button>
+                </div>
+              </div>
+              
+              <div class="stats-section bg-light p-3 rounded mt-3">
+                <h4 class="fs-5">Quiz Stats</h4>
+                <div class="row text-center">
+                  <div class="col-4">
+                    <div class="stat-number fw-bold text-primary" id="totalTakers">0</div>
+                    <div class="stat-label">Total Participants</div>
+                  </div>
+                  <div class="col-4">
+                    <div class="stat-number fw-bold text-primary" id="sameEraPercentage">0%</div>
+                    <div class="stat-label">Same Result</div>
+                  </div>
+                  <div class="col-4">
+                    <div class="stat-number fw-bold text-primary" id="popularEra">--</div>
+                    <div class="stat-label">Most Popular</div>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="text-center mt-4">
+                <button class="btn btn-secondary" id="restartBtn">Take Quiz Again</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- End Era Quiz Section --></div>
+
+  </main>
+
+  <footer id="footer" class="footer">
+
+    <div class="container text-center">
+      <div class="copyright">
+        <p>© <span>2025</span> <strong class="px-1 sitename">The Eras Tour</strong> <span>All Rights Reserved</span></p>
+      </div>
+  
+      <div class="social-links d-flex justify-content-center">
+        <a href="https://twitter.com/taylorswift13" target="_blank"><i class="bi bi-twitter-x"></i></a>
+        <a href="https://www.facebook.com/TaylorSwift" target="_blank"><i class="bi bi-facebook"></i></a>
+        <a href="https://www.instagram.com/taylorswift/" target="_blank"><i class="bi bi-instagram"></i></a>
+        <a href="https://www.youtube.com/user/TaylorSwift" target="_blank"><i class="bi bi-youtube"></i></a>
+      </div>
+  
+      <div class="credits">
+        <p>Official Website of <strong>The Eras Tour</strong></p>
+      </div>
+    </div>
+  
+  </footer>  
+
+  <!-- Scroll Top -->
+  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/php-email-form/validate.js"></script>
+  <script src="assets/vendor/aos/aos.js"></script>
+  <script src="assets/vendor/waypoints/noframework.waypoints.js"></script>
+  <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="assets/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
+  <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+  <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+
+  <!-- Main JS File -->
+  <script src="assets/js/main.js"></script>
+
+</body>
+
+</html>
