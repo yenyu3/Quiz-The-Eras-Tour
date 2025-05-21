@@ -286,21 +286,21 @@
     
     // 定義每個時代結果對應的圖片網址（使用 GitHub Raw 連結）
     const eraImages = {
-      'Debut Era': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747834905/a5_zxhumn.jpg',
-      'Fearless Era': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747834905/a5_zxhumn.jpg',
-      'Speak Now Era': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747834905/a5_zxhumn.jpg',
-      'Red Era': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747834905/a5_zxhumn.jpg',
-      '1989 Era': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747834905/a5_zxhumn.jpg',
-      'Reputation Era': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747834905/a5_zxhumn.jpg',
-      'Lover Era': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747834905/a5_zxhumn.jpg',
-      'Folklore Era': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747834905/a5_zxhumn.jpg',
-      'Evermore Era': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747834905/a5_zxhumn.jpg',
-      'Midnights Era': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747834905/a5_zxhumn.jpg',
-      'The Tortured Poets Department Era': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747834905/a5_zxhumn.jpg'
+      'Debut Era': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747836711/r1_x9pyyx.png',
+      'Fearless Era': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747836710/r2_gvfe1t.png',
+      'Speak Now Era': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747836683/r3_yibi6w.png',
+      'Red Era': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747836683/r4_ozcag5.png',
+      '1989 Era': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747836683/r5_k2eshu.png',
+      'Reputation Era': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747836684/r6_j8tmp5.png',
+      'Lover Era': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747836684/r7_cqb76s.png',
+      'Folklore Era': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747836684/r8_o7mjdk.png',
+      'Evermore Era': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747836684/r9_tfr6kr.png',
+      'Midnights Era': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747836685/r10_nxzyog.png',
+      'The Tortured Poets Department Era': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747836684/r11_l4je7x.png'
     };
     
     // 根據時代結果獲取適當的圖片網址
-    const imageUrl = eraImages[eraName] || 'https://res.cloudinary.com/da3bvump4/image/upload/v1747834905/a5_zxhumn.jpg';
+    const imageUrl = eraImages[eraName] || 'https://res.cloudinary.com/da3bvump4/image/upload/v1747837000/t2_w4iqlm.jpg';
     
     // 從網址獲取圖片並下載
     fetch(imageUrl)
@@ -312,7 +312,7 @@
         // 創建一個臨時連結來下載圖片
         const link = document.createElement('a');
         link.href = blobUrl;
-        link.download = `泰勒絲-${eraName.toLowerCase().replace(/\s+/g, '-')}-結果.jpg`;
+        link.download = `TheErasTour-${eraName.toLowerCase().replace(/\s+/g, '-')}-Result.jpg`;
         
         // 觸發下載
         document.body.appendChild(link);
