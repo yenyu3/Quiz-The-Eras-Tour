@@ -272,74 +272,48 @@
 
   <script>
   function captureAndDownloadResult() {
-    const screenshotBtn = document.getElementById('screenshotBtn');
-    const screenshotMessage = document.getElementById('screenshotMessage');
-    screenshotBtn.disabled = true;
-    screenshotMessage.style.display = 'block';
+  const eraName = document.getElementById('eraName')?.textContent.trim();
+  const screenshotBtn = document.getElementById('screenshotBtn');
+  const screenshotMessage = document.getElementById('screenshotMessage');
 
-    // 取得並標準化 Era 名稱
-    const eraNameRaw = document.getElementById('eraName')?.textContent || '';
-    const eraName = eraNameRaw.trim();
-    console.log('取得 eraName：', `"${eraName}"`);
+  screenshotBtn.disabled = true;
+  screenshotMessage.style.display = 'block';
 
-    // 對應 Era 圖片網址（建議 GitHub Pages 或 CDN 路徑）
-    const eraImageMap = {
-  "Debut": "/Quiz-The-Eras-Tour/images/a1.jpg",
-  "Fearless": "/Quiz-The-Eras-Tour/images/a2.jpg",
-  "Speak Now": "/Quiz-The-Eras-Tour/images/a3.jpg",
-  "Red": "/Quiz-The-Eras-Tour/images/a4.jpg",
-  "1989": "/Quiz-The-Eras-Tour/images/a5.jpg",
-  "reputation": "/Quiz-The-Eras-Tour/images/a6.jpg",
-  "Lover": "/Quiz-The-Eras-Tour/images/a7.jpg",
-  "folklore": "/Quiz-The-Eras-Tour/images/a8.jpg",
-  "evermore": "/Quiz-The-Eras-Tour/images/a9.jpg",
-  "Midnights": "/Quiz-The-Eras-Tour/images/a10.jpg",
-  "The Tortured Poets Department": "/Quiz-The-Eras-Tour/images/a11.jpg"
-};
+  const eraImageMap = {
+    "Debut": "/Quiz-The-Eras-Tour/images/a1.jpg",
+    "Fearless": "/Quiz-The-Eras-Tour/images/a2.jpg",
+    "Speak Now": "/Quiz-The-Eras-Tour/images/a3.jpg",
+    "Red": "/Quiz-The-Eras-Tour/images/a4.jpg",
+    "1989": "/Quiz-The-Eras-Tour/images/a5.jpg",
+    "reputation": "/Quiz-The-Eras-Tour/images/a6.jpg",
+    "Lover": "/Quiz-The-Eras-Tour/images/a7.jpg",
+    "folklore": "/Quiz-The-Eras-Tour/images/a8.jpg",
+    "evermore": "/Quiz-The-Eras-Tour/images/a9.jpg",
+    "Midnights": "/Quiz-The-Eras-Tour/images/a10.jpg",
+    "The Tortured Poets Department": "/Quiz-The-Eras-Tour/images/a11.jpg"
+  };
 
+  const imageUrl = eraImageMap[eraName];
 
-    let imageUrl = eraImageMap[eraName];
-
-    if (!imageUrl) {
-      // 如果找不到匹配 key，顯示錯誤訊息並用 fallback
-      const availableKeys = Object.keys(eraImageMap).join(', ');
-      alert(`找不到對應圖片（eraName: "${eraName}"）`);
-      generateFallbackImage(eraName);
-      screenshotBtn.disabled = false;
-      screenshotMessage.style.display = 'none';
-      return;
-    }
-
-    // 確認圖片 URL 後進行下載流程
-    console.log('準備下載圖片：', imageUrl);
-
-    fetch(imageUrl)
-      .then(response => {
-        if (!response.ok) {
-          throw new Error(`圖片獲取失敗（${response.status}：${response.statusText}）`);
-        }
-        return response.blob();
-      })
-      .then(blob => {
-        const url = window.URL.createObjectURL(blob);
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = `The Eras Tour -${eraName}.jpg`;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        window.URL.revokeObjectURL(url);
-        console.log('✅ 圖片下載完成');
-      })
-      .catch(error => {
-        console.error('❌ 下載失敗：', error);
-        generateFallbackImage(eraName); // 使用 Canvas 備援
-      })
-      .finally(() => {
-        screenshotBtn.disabled = false;
-        screenshotMessage.style.display = 'none';
-      });
+  if (!imageUrl) {
+    alert(`⚠️ 找不到對應圖片（eraName: "${eraName}"）`);
+    generateFallbackImage(eraName);
+    screenshotBtn.disabled = false;
+    screenshotMessage.style.display = 'none';
+    return;
   }
+
+  // ✅ 建立下載連結
+  const link = document.createElement('a');
+  link.href = imageUrl;
+  link.download = `泰勒絲時代-${eraName}.jpg`;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+
+  screenshotBtn.disabled = false;
+  screenshotMessage.style.display = 'none';
+}
 
   function generateFallbackImage(eraName) {
     const canvas = document.createElement('canvas');
