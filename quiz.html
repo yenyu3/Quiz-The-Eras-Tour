@@ -27,19 +27,13 @@
   <!-- Main CSS File -->
   <link href="assets/css/main.css" rel="stylesheet">
 
-  <!-- =======================================================
-  * Template Name: EasyFolio
-  * Template URL: https://bootstrapmade.com/easyfolio-bootstrap-portfolio-template/
-  * Updated: Feb 21 2025 with Bootstrap v5.3.3
-  * Author: BootstrapMade.com
-  * License: https://bootstrapmade.com/license/
-  ======================================================== -->
-
   <!-- Firebase 核心 SDK -->
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<!-- 確保引入的是最新版本且從可靠來源 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" integrity="sha512-BNaRQnYJYiPSqHHDb58B0yaPfCu+Wgds8Gp/gU33kqBtgNS4tSPHuGibyoeqMV/TJlSKda6FXzoEyYGjTe+vXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 <script>
   //自己的 Firebase 設定
@@ -193,16 +187,19 @@
                 </div>
 
 
-              <div class="share-section bg-light p-3 rounded">
-                <h4 class="fs-5">Share Your Result</h4>
-                <p class="small text-muted">Share with your friends to see if you're in the same Era!</p>
-                <div class="d-flex justify-content-center gap-3 my-3">
-                  <button class="btn btn-sm btn-outline-primary rounded-circle" onclick="shareResult('facebook')"><i class="bi bi-facebook"></i></button>
-                  <button class="btn btn-sm btn-outline-primary rounded-circle" onclick="shareResult('twitter')"><i class="bi bi-twitter-x"></i></button>
-                  <button class="btn btn-sm btn-outline-primary rounded-circle" onclick="shareResult('instagram')"><i class="bi bi-instagram"></i></button>
-                  <button class="btn btn-sm btn-outline-primary rounded-circle" onclick="copyLink()"><i class="bi bi-link-45deg"></i></button>
-                </div>
-              </div>
+              <!-- filepath: c:\Users\88693\Desktop\大二下\思維邏輯\The Eras Tour\quiz.html -->
+<div class="share-section bg-light p-3 rounded">
+  <h4 class="fs-5">Share Your Result</h4>
+  <p class="small text-muted">Share with your friends to see if you're in the same Era!</p>
+  <div class="d-flex justify-content-center gap-3 my-3">
+    <button class="btn btn-sm btn-outline-primary rounded-circle" onclick="shareResult('facebook')"><i class="bi bi-facebook"></i></button>
+    <button class="btn btn-sm btn-outline-primary rounded-circle" onclick="shareResult('twitter')"><i class="bi bi-twitter-x"></i></button>
+    <button class="btn btn-sm btn-outline-primary rounded-circle" onclick="shareResult('instagram')"><i class="bi bi-instagram"></i></button>
+    <button class="btn btn-sm btn-outline-primary rounded-circle" onclick="copyLink()"><i class="bi bi-link-45deg"></i></button>
+    <button id="screenshotBtn" class="btn btn-sm btn-outline-primary rounded-circle" onclick="captureAndDownloadResult()"><i class="bi bi-camera"></i></button>
+  </div>
+  <div id="screenshotMessage" class="small text-muted text-center" style="display: none;">正在生成截圖，請稍候...</div>
+</div>
               
               <div class="stats-section bg-light p-3 rounded mt-3">
                 <h4 class="fs-5">Quiz Stats</h4>
@@ -272,6 +269,127 @@
 
   <!-- Main JS File -->
   <script src="assets/js/main.js"></script>
+
+  <script>
+  function captureAndDownloadResult() {
+    const screenshotBtn = document.getElementById('screenshotBtn');
+    const screenshotMessage = document.getElementById('screenshotMessage');
+    screenshotBtn.disabled = true;
+    screenshotMessage.style.display = 'block';
+
+    // 取得並標準化 Era 名稱
+    const eraNameRaw = document.getElementById('eraName')?.textContent || '';
+    const eraName = eraNameRaw.trim();
+    console.log('取得 eraName：', `"${eraName}"`);
+
+    // 對應 Era 圖片網址（建議 GitHub Pages 或 CDN 路徑）
+    const eraImageMap = {
+  "Debut": "./images/a1.jpg",
+  "Fearless": "./images/a2.jpg",
+  "Speak Now": "./images/a3.jpg",
+  "Red": "./images/a4.jpg",
+  "1989": "./images/a5.jpg",
+  "reputation": "./images/a6.jpg",
+  "Lover": "./images/a7.jpg",
+  "folklore": "./images/a8.jpg",
+  "evermore": "./images/a9.jpg",
+  "Midnights": "./images/a10.jpg",
+  "The Tortured Poets Department": "./images/a11.jpg"
+};
+
+
+    let imageUrl = eraImageMap[eraName];
+
+    if (!imageUrl) {
+      // 如果找不到匹配 key，顯示錯誤訊息並用 fallback
+      const availableKeys = Object.keys(eraImageMap).join(', ');
+      alert(`找不到對應圖片（eraName: "${eraName}"）`);
+      generateFallbackImage(eraName);
+      screenshotBtn.disabled = false;
+      screenshotMessage.style.display = 'none';
+      return;
+    }
+
+    // 確認圖片 URL 後進行下載流程
+    console.log('準備下載圖片：', imageUrl);
+
+    fetch(imageUrl)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`圖片獲取失敗（${response.status}：${response.statusText}）`);
+        }
+        return response.blob();
+      })
+      .then(blob => {
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `The Eras Tour -${eraName}.jpg`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        window.URL.revokeObjectURL(url);
+        console.log('✅ 圖片下載完成');
+      })
+      .catch(error => {
+        console.error('❌ 下載失敗：', error);
+        generateFallbackImage(eraName); // 使用 Canvas 備援
+      })
+      .finally(() => {
+        screenshotBtn.disabled = false;
+        screenshotMessage.style.display = 'none';
+      });
+  }
+
+  function generateFallbackImage(eraName) {
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = 600;
+    canvas.height = 400;
+
+    // 背景與標題
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = '#f8f9fa';
+    ctx.fillRect(0, 0, canvas.width, 60);
+    ctx.font = 'bold 28px Arial';
+    ctx.fillStyle = '#333';
+    ctx.textAlign = 'center';
+    ctx.fillText('Taylor Swift: The Eras Tour', canvas.width / 2, 40);
+
+    // 主體內容
+    ctx.font = 'bold 24px Arial';
+    ctx.fillStyle = '#0d6efd';
+    ctx.fillText(`You are a ${eraName}!`, canvas.width / 2, 120);
+    ctx.beginPath();
+    ctx.arc(canvas.width / 2, 200, 80, 0, Math.PI * 2);
+    ctx.fillStyle = '#f0f8ff';
+    ctx.fill();
+    ctx.strokeStyle = '#0d6efd';
+    ctx.lineWidth = 3;
+    ctx.stroke();
+    ctx.font = 'bold 20px Arial';
+    ctx.fillStyle = '#0d6efd';
+    ctx.fillText(eraName, canvas.width / 2, 205);
+
+    // 日期資訊
+    const currentDate = new Date();
+    ctx.font = '14px Arial';
+    ctx.fillStyle = '#666';
+    ctx.fillText(`Quiz Result - ${currentDate.toLocaleDateString()}`, canvas.width / 2, 350);
+
+    // 下載備用圖片
+    const fallbackImage = canvas.toDataURL('image/png');
+    const fallbackLink = document.createElement('a');
+    fallbackLink.href = fallbackImage;
+    fallbackLink.download = `泰勒絲時代-${eraName}.png`;
+    document.body.appendChild(fallbackLink);
+    fallbackLink.click();
+    document.body.removeChild(fallbackLink);
+    console.log('🧩 使用備用圖片下載成功');
+  }
+</script>
+
 
 </body>
 
