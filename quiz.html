@@ -269,8 +269,105 @@
   <!-- Main JS File -->
 <script src="assets/js/main.js"></script>
 
-
-
+<script>
+  //截圖按鈕
+window.downloadResultImage = function() {
+  // 直接從頁面上的元素獲取當前顯示的 Era 名稱
+  const eraNameElement = document.getElementById('eraName');
+  if (!eraNameElement) {
+    alert("Could not find your result. Please try again later.");
+    return;
+  }
+  
+  // 獲取顯示的結果名稱並映射回原始 Era 代碼
+  const eraDisplayName = eraNameElement.textContent.trim();
+  
+  // 從顯示名稱映射到 era 代碼的對應關係
+  const nameToCode = {
+    'Debut Dreamer': 'taylor_swift',
+    'Fearless Warrior': 'fearless',
+    'Speak Now Songbird': 'speak_now',
+    'Red Heartbeat': 'red',
+    '1989 Trendsetter': '1989',
+    'Reputation Queen': 'reputation',
+    'Lover Romantic': 'lover',
+    'Folklore Storyteller': 'folklore',
+    'Evermore Wanderer': 'evermore',
+    'Midnights Thinker': 'midnights',
+    'TTPD Muse': 'tortured_poets'
+  };
+  
+  // 獲取 era 代碼
+  const result = nameToCode[eraDisplayName];
+  
+  if (!result) {
+    console.error("未能映射結果名稱到代碼:", eraDisplayName);
+    alert("Sorry, couldn't find an image for your result.");
+    return;
+  }
+  
+  console.log("找到的結果代碼:", result); // 調試信息
+  
+  // 定義每個時代結果對應的圖片網址
+  const eraImages = {
+    'taylor_swift': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747838494/r1_dmorik.jpg',
+    'fearless': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747838496/r2_stzs0f.png',
+    'speak_now': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747838496/r3_qxnikx.jpg',
+    'red': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747838498/r4_jzdgoj.jpg',
+    '1989': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747838500/r5_a3zyad.jpg',
+    'reputation': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747838502/r6_tktjoz.jpg',
+    'lover': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747838503/r7_rvvnol.jpg',
+    'folklore': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747838505/r8_btsxco.jpg',
+    'evermore': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747838507/r9_hpievo.jpg',
+    'midnights': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747838509/r10_ewqkhs.jpg',
+    'tortured_poets': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747838510/r11_hr5jxi.jpg'
+  };
+  
+  // 獲取對應的圖片URL
+  const imageUrl = eraImages[result];
+  console.log("圖片URL:", imageUrl); // 調試信息
+  
+  if (!imageUrl) {
+    alert("Sorry, couldn't find an image for your result.");
+    return;
+  }
+  
+  // 從網址獲取圖片並下載
+  fetch(imageUrl)
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      return response.blob();
+    })
+    .then(blob => {
+      // 創建URL物件
+      const blobUrl = URL.createObjectURL(blob);
+      
+      // 創建一個臨時連結來下載圖片
+      const link = document.createElement('a');
+      link.href = blobUrl;
+      
+      // 設定檔名為獨特的名稱
+      link.download = `TSwift_${eraDisplayName.replace(/\s+/g, '_')}_EraReveal_${Math.floor(Date.now()/1000).toString().slice(-5)}.jpg`;
+      
+      // 觸發下載
+      document.body.appendChild(link);
+      link.click();
+      
+      // 移除臨時元素並釋放URL
+      document.body.removeChild(link);
+      URL.revokeObjectURL(blobUrl);
+      
+      // 顯示成功訊息
+      alert('Your result image is downloading!');
+    })
+    .catch(error => {
+      console.error('Error downloading image:', error);
+      alert('There was an error downloading your image. Please try again.');
+    });
+};
+  </script>
 
 </body>
 
