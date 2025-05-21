@@ -951,3 +951,69 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
   });
+
+//截圖按鈕
+// 添加到您的main.js文件的結尾
+window.downloadResultImage = function() {
+  // 獲取當前的時代結果
+  const result = calculateResult();
+  
+  // 定義每個時代結果對應的圖片網址
+  const eraImages = {
+    'taylor_swift': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747838494/r1_dmorik.jpg',
+    'fearless': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747838496/r2_stzs0f.png',
+    'speak_now': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747838496/r3_qxnikx.jpg',
+    'red': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747838498/r4_jzdgoj.jpg',
+    '1989': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747838500/r5_a3zyad.jpg',
+    'reputation': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747838502/r6_tktjoz.jpg',
+    'lover': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747838503/r7_rvvnol.jpg',
+    'folklore': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747838505/r8_btsxco.jpg',
+    'evermore': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747838507/r9_hpievo.jpg',
+    'midnights': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747838509/r10_ewqkhs.jpg',
+    'tortured_poets': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747838510/r11_hr5jxi.jpg'
+  };
+  
+  // 獲取對應的圖片URL
+  const imageUrl = eraImages[result];
+  
+  if (!imageUrl) {
+    alert("Sorry, couldn't find an image for your result.");
+    return;
+  }
+  
+  // 從網址獲取圖片並下載
+  fetch(imageUrl)
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      return response.blob();
+    })
+    .then(blob => {
+      // 創建URL物件
+      const blobUrl = URL.createObjectURL(blob);
+      
+      // 創建一個臨時連結來下載圖片
+      const link = document.createElement('a');
+      link.href = blobUrl;
+      
+      // 設定檔名為獨特的名稱
+      const eraName = eraResults[result].name;
+      link.download = `TSwift_${eraName.replace(/\s+/g, '_')}_EraReveal_${Math.floor(Date.now()/1000).toString().slice(-5)}.jpg`;
+      
+      // 觸發下載
+      document.body.appendChild(link);
+      link.click();
+      
+      // 移除臨時元素並釋放URL
+      document.body.removeChild(link);
+      URL.revokeObjectURL(blobUrl);
+      
+      // 顯示成功訊息
+      alert('Your result image is downloading!');
+    })
+    .catch(error => {
+      console.error('Error downloading image:', error);
+      alert('There was an error downloading your image. Please try again.');
+    });
+};
