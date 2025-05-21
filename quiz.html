@@ -50,6 +50,63 @@
   const database = firebase.database();
 </script>
 
+
+<!-- 在您的 HTML 的 head 部分添加以下 CSS 和 JS -->
+<style>
+  /* 隱藏的圖片容器用於預先加載備用圖片 */
+  #preloadContainer {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    opacity: 0;
+    pointer-events: none;
+  }
+</style>
+
+<!-- 在 body 的末尾添加以下 HTML 代碼 -->
+<div id="preloadContainer">
+  <!-- 這裡放置所有時代的備用圖片 -->
+  <img src="assets/img/eras/debut-era.jpg" alt="Debut Era" data-era="Debut Era">
+  <img src="assets/img/eras/fearless-era.jpg" alt="Fearless Era" data-era="Fearless Era">
+  <img src="assets/img/eras/speak-now-era.jpg" alt="Speak Now Era" data-era="Speak Now Era">
+  <img src="assets/img/eras/red-era.jpg" alt="Red Era" data-era="Red Era">
+  <img src="assets/img/eras/1989-era.jpg" alt="1989 Era" data-era="1989 Era">
+  <img src="assets/img/eras/reputation-era.jpg" alt="Reputation Era" data-era="Reputation Era">
+  <img src="assets/img/eras/lover-era.jpg" alt="Lover Era" data-era="Lover Era">
+  <img src="assets/img/eras/folklore-era.jpg" alt="Folklore Era" data-era="Folklore Era">
+  <img src="assets/img/eras/evermore-era.jpg" alt="Evermore Era" data-era="Evermore Era">
+  <img src="assets/img/eras/midnights-era.jpg" alt="Midnights Era" data-era="Midnights Era">
+  <img src="assets/img/eras/tortured-poets-era.jpg" alt="The Tortured Poets Department Era" data-era="The Tortured Poets Department Era">
+  <img src="assets/img/eras/default-era.jpg" alt="Default Era" data-era="default">
+</div>
+
+<script>
+  // 預先載入所有本地圖片
+  document.addEventListener('DOMContentLoaded', function() {
+    console.log('預先載入本地備用圖片...');
+    const preloadImages = document.querySelectorAll('#preloadContainer img');
+    preloadImages.forEach(img => {
+      img.onload = function() {
+        console.log(`成功預先載入: ${img.alt}`);
+      };
+      img.onerror = function() {
+        console.warn(`無法預先載入: ${img.alt}`);
+      };
+    });
+  });
+
+  // 修改 downloadResult 函數以使用本地備用圖片
+  function getLocalBackupImage(eraName) {
+    const backupImg = document.querySelector(`#preloadContainer img[data-era="${eraName}"]`);
+    if (backupImg) {
+      return backupImg;
+    }
+    // 如果沒有找到對應的備用圖片，返回默認圖片
+    return document.querySelector('#preloadContainer img[data-era="default"]');
+  }
+</script>
+
 </head>
 
 <body class="service-details-page">
@@ -277,34 +334,78 @@ function downloadResult() {
   const eraName = document.getElementById('eraName').textContent;
   console.log("Retrieved era name:", eraName);
   
-  // Define image URLs for each era result
+  // Define image URLs for each era result - 使用多組備用圖片來源
   const eraImages = {
-    'Debut Era': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747838494/r1_dmorik.jpg',
-    'Fearless Era': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747838496/r2_stzs0f.png',
-    'Speak Now Era': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747838496/r3_qxnikx.jpg',
-    'Red Era': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747838498/r4_jzdgoj.jpg',
-    '1989 Era': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747838500/r5_a3zyad.jpg',
-    'Reputation Era': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747838502/r6_tktjoz.jpg',
-    'Lover Era': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747838503/r7_rvvnol.jpg',
-    'Folklore Era': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747838505/r8_btsxco.jpg',
-    'Evermore Era': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747838507/r9_hpievo.jpg',
-    'Midnights Era': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747838509/r10_ewqkhs.jpg',
-    'The Tortured Poets Department Era': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747838510/r11_hr5jxi.jpg'
+    'Debut Era': [
+      'https://res.cloudinary.com/da3bvump4/image/upload/v1747838494/r1_dmorik.jpg',
+      'https://i.imgur.com/S4xZEhN.jpg',
+      'https://imgcdn.prod.yeswebsite.co/taylorswift-eras/r1.jpg'
+    ],
+    'Fearless Era': [
+      'https://res.cloudinary.com/da3bvump4/image/upload/v1747838496/r2_stzs0f.png',
+      'https://i.imgur.com/JH7YcRp.jpg',
+      'https://imgcdn.prod.yeswebsite.co/taylorswift-eras/r2.jpg'
+    ],
+    'Speak Now Era': [
+      'https://res.cloudinary.com/da3bvump4/image/upload/v1747838496/r3_qxnikx.jpg',
+      'https://i.imgur.com/XRnYF8P.jpg',
+      'https://imgcdn.prod.yeswebsite.co/taylorswift-eras/r3.jpg'
+    ],
+    'Red Era': [
+      'https://res.cloudinary.com/da3bvump4/image/upload/v1747838498/r4_jzdgoj.jpg',
+      'https://i.imgur.com/cQMaK4A.jpg',
+      'https://imgcdn.prod.yeswebsite.co/taylorswift-eras/r4.jpg'
+    ],
+    '1989 Era': [
+      'https://res.cloudinary.com/da3bvump4/image/upload/v1747838500/r5_a3zyad.jpg',
+      'https://i.imgur.com/UWmWPZr.jpg',
+      'https://imgcdn.prod.yeswebsite.co/taylorswift-eras/r5.jpg'
+    ],
+    'Reputation Era': [
+      'https://res.cloudinary.com/da3bvump4/image/upload/v1747838502/r6_tktjoz.jpg',
+      'https://i.imgur.com/a6Y4GQS.jpg',
+      'https://imgcdn.prod.yeswebsite.co/taylorswift-eras/r6.jpg'
+    ],
+    'Lover Era': [
+      'https://res.cloudinary.com/da3bvump4/image/upload/v1747838503/r7_rvvnol.jpg',
+      'https://i.imgur.com/9z2CjEb.jpg',
+      'https://imgcdn.prod.yeswebsite.co/taylorswift-eras/r7.jpg'
+    ],
+    'Folklore Era': [
+      'https://res.cloudinary.com/da3bvump4/image/upload/v1747838505/r8_btsxco.jpg',
+      'https://i.imgur.com/FbV7Z1g.jpg',
+      'https://imgcdn.prod.yeswebsite.co/taylorswift-eras/r8.jpg'
+    ],
+    'Evermore Era': [
+      'https://res.cloudinary.com/da3bvump4/image/upload/v1747838507/r9_hpievo.jpg',
+      'https://i.imgur.com/4s8SjEO.jpg',
+      'https://imgcdn.prod.yeswebsite.co/taylorswift-eras/r9.jpg'
+    ],
+    'Midnights Era': [
+      'https://res.cloudinary.com/da3bvump4/image/upload/v1747838509/r10_ewqkhs.jpg',
+      'https://i.imgur.com/R4WzPlB.jpg',
+      'https://imgcdn.prod.yeswebsite.co/taylorswift-eras/r10.jpg'
+    ],
+    'The Tortured Poets Department Era': [
+      'https://res.cloudinary.com/da3bvump4/image/upload/v1747838510/r11_hr5jxi.jpg',
+      'https://i.imgur.com/2xD7UPb.jpg',
+      'https://imgcdn.prod.yeswebsite.co/taylorswift-eras/r11.jpg'
+    ]
   };
   
-  // Check era name and get appropriate image URL
-  const imageUrl = eraImages[eraName];
+  // 預設圖片 - 當所有來源都失敗時使用
+  const defaultImage = "https://eras-quiz.com/assets/img/default-era-result.jpg";
   
-  // If no matching image is found, use a default image or show an error
-  if (!imageUrl) {
-    console.error(`Could not find image URL for "${eraName}"`);
-    alert(`Could not find an image for "${eraName}", please try again later.`);
+  // 如果找不到對應的時代，顯示錯誤訊息
+  if (!eraImages[eraName]) {
+    console.error(`找不到 "${eraName}" 的圖片`);
+    alert(`找不到 "${eraName}" 的圖片，請稍後再試。`);
     return;
   }
   
-  // Create a loading indicator
+  // 建立一個載入中提示
   const loadingMessage = document.createElement('div');
-  loadingMessage.textContent = 'Preparing your image...';
+  loadingMessage.textContent = '準備您的圖片中...';
   loadingMessage.style.position = 'fixed';
   loadingMessage.style.top = '50%';
   loadingMessage.style.left = '50%';
@@ -315,56 +416,94 @@ function downloadResult() {
   loadingMessage.style.borderRadius = '10px';
   loadingMessage.style.zIndex = '9999';
   document.body.appendChild(loadingMessage);
-  
-  // Create an image element to ensure the image is fully loaded
-  const img = new Image();
-  img.crossOrigin = "Anonymous";  // This is critical for handling CORS issues
-  
-  img.onload = function() {
-    // Create a canvas to handle the image data
-    const canvas = document.createElement('canvas');
-    canvas.width = img.width;
-    canvas.height = img.height;
+
+  // 嘗試載入圖片的函數
+  function tryLoadImage(imageUrls, index) {
+    // 如果已經嘗試所有圖片源
+    if (index >= imageUrls.length) {
+      console.error('所有圖片來源都失敗，嘗試使用預設圖片');
+      
+      // 嘗試載入預設圖片
+      const defaultImg = new Image();
+      defaultImg.crossOrigin = "Anonymous";
+      
+      defaultImg.onload = function() {
+        processAndDownloadImage(defaultImg, eraName);
+      };
+      
+      defaultImg.onerror = function() {
+        console.error('連預設圖片都無法載入');
+        document.body.removeChild(loadingMessage);
+        alert('無法載入任何圖片。請檢查您的網路連接或稍後再試。');
+      };
+      
+      defaultImg.src = defaultImage;
+      return;
+    }
     
-    // Draw the image onto the canvas
-    const ctx = canvas.getContext('2d');
-    ctx.drawImage(img, 0, 0);
+    // 嘗試當前的圖片來源
+    const img = new Image();
+    img.crossOrigin = "Anonymous";  // 處理 CORS 問題
     
+    img.onload = function() {
+      processAndDownloadImage(img, eraName);
+    };
+    
+    img.onerror = function() {
+      console.error(`圖片載入失敗 (${index+1}/${imageUrls.length}): ${imageUrls[index]}`);
+      // 嘗試下一個圖片來源
+      tryLoadImage(imageUrls, index + 1);
+    };
+    
+    // 設定圖片來源
+    img.src = imageUrls[index];
+  }
+  
+  // 處理和下載圖片的函數
+  function processAndDownloadImage(img, eraName) {
     try {
-      // Convert canvas to blob (specifically as image/jpeg format)
+      // 建立 canvas 處理圖片資料
+      const canvas = document.createElement('canvas');
+      canvas.width = img.width;
+      canvas.height = img.height;
+      
+      // 將圖片繪製到 canvas 上
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0);
+      
+      // 將 canvas 轉換為 blob (指定為 JPEG 格式)
       canvas.toBlob(function(blob) {
-        // Create a download link for the blob
+        if (!blob) {
+          throw new Error("無法創建圖片 blob");
+        }
+        
+        // 創建下載連結
         const blobUrl = URL.createObjectURL(blob);
         const link = document.createElement('a');
         link.href = blobUrl;
         link.download = `TSwift_${eraName.replace(/\s+/g, '_')}_EraReveal_${Math.floor(Date.now()/1000).toString().slice(-5)}.jpg`;
         
-        // Trigger download
+        // 觸發下載
         document.body.appendChild(link);
         link.click();
         
-        // Clean up
+        // 清理
         document.body.removeChild(link);
         URL.revokeObjectURL(blobUrl);
         document.body.removeChild(loadingMessage);
         
-        alert('Your result image has been downloaded!');
-      }, 'image/jpeg', 0.95);  // Specify JPEG format with 95% quality
+        alert('您的結果圖片已成功下載！');
+      }, 'image/jpeg', 0.95);  // 指定 JPEG 格式，品質 95%
+      
     } catch (e) {
-      console.error('Error during canvas processing:', e);
+      console.error('處理圖片時發生錯誤:', e);
       document.body.removeChild(loadingMessage);
-      alert('There was an error processing your image. Please try again later.');
+      alert('處理圖片時發生錯誤，請稍後再試。');
     }
-  };
+  }
   
-  img.onerror = function() {
-    console.error('Image failed to load from URL:', imageUrl);
-    document.body.removeChild(loadingMessage);
-    alert('Failed to load the image. Please try again later.');
-  };
-  
-  // Set the image source to start loading
-  img.src = imageUrl;
+  // 開始嘗試載入圖片
+  tryLoadImage(eraImages[eraName], 0);
 }
 </script>
 
