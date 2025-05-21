@@ -276,23 +276,24 @@
     // 獲取當前的時代結果
     const eraName = document.getElementById('eraName').textContent;
     
-    // 定義每個時代結果對應的圖片網址（使用 GitHub Raw 連結）
+    // 定義每個時代結果對應的圖片網址
     const eraImages = {
-      'Debut Era': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747836711/r1_x9pyyx.png',
-      'Fearless Era': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747836710/r2_gvfe1t.png',
-      'Speak Now Era': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747836683/r3_yibi6w.png',
-      'Red Era': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747836683/r4_ozcag5.png',
-      '1989 Era': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747836683/r5_k2eshu.png',
-      'Reputation Era': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747836684/r6_j8tmp5.png',
-      'Lover Era': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747836684/r7_cqb76s.png',
-      'Folklore Era': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747836684/r8_o7mjdk.png',
-      'Evermore Era': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747836684/r9_tfr6kr.png',
-      'Midnights Era': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747836685/r10_nxzyog.png',
-      'The Tortured Poets Department Era': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747836684/r11_l4je7x.png'
+      'Debut Era': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747838494/r1_dmorik.jpg',
+      'Fearless Era': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747838496/r2_stzs0f.png',
+      'Speak Now Era': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747838496/r3_qxnikx.jpg',
+      'Red Era': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747838498/r4_jzdgoj.jpg',
+      '1989 Era': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747838500/r5_a3zyad.jpg',
+      'Reputation Era': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747838502/r6_tktjoz.jpg',
+      'Lover Era': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747838503/r7_rvvnol.jpg',
+      'Folklore Era': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747838505/r8_btsxco.jpg',
+      'Evermore Era': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747838507/r9_hpievo.jpg',
+      'Midnights Era': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747838509/r10_ewqkhs.jpg',
+      'The Tortured Poets Department Era': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747838510/r11_hr5jxi.jpg'
     };
     
     // 根據時代結果獲取適當的圖片網址
-    //const imageUrl = eraImages[eraName] || 'https://res.cloudinary.com/da3bvump4/image/upload/v1747837000/t2_w4iqlm.jpg';
+    const imageUrl = eraImages[eraName];
+    //|| 'https://res.cloudinary.com/da3bvump4/image/upload/v1747837000/t2_w4iqlm.jpg'
     
     // 從網址獲取圖片並下載
     fetch(imageUrl)
