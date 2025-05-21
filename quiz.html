@@ -1,5 +1,4 @@
-改過
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -274,359 +273,55 @@
 <!-- 結果下載腳本 -->
 <script>
   function downloadResult() {
-  // 獲取當前的時代結果
-  const eraName = document.getElementById('eraName').textContent;
-  console.log("取得時代名稱:", eraName);
-  
-  // 獲取結果描述
-  const resultDescription = document.getElementById('resultDescription').textContent;
-  
-  // 建立載入中提示
-  const loadingMessage = document.createElement('div');
-  loadingMessage.textContent = '準備您的圖片中...';
-  loadingMessage.style.position = 'fixed';
-  loadingMessage.style.top = '50%';
-  loadingMessage.style.left = '50%';
-  loadingMessage.style.transform = 'translate(-50%, -50%)';
-  loadingMessage.style.padding = '20px';
-  loadingMessage.style.backgroundColor = 'rgba(0,0,0,0.7)';
-  loadingMessage.style.color = 'white';
-  loadingMessage.style.borderRadius = '10px';
-  loadingMessage.style.zIndex = '9999';
-  document.body.appendChild(loadingMessage);
-  
-  // 定義每個時代的顏色和風格
-  const eraStyles = {
-    'Debut Era': { 
-      bgColor: '#386641', 
-      textColor: '#f1faee', 
-      emoji: '🎸', 
-      borderColor: '#A2D2A4',
-      gradientColor: '#4E8257',
-      pattern: 'stars'
-    },
-    'Fearless Era': { 
-      bgColor: '#FF9F1C', 
-      textColor: '#011627', 
-      emoji: '✨', 
-      borderColor: '#FFC85C',
-      gradientColor: '#FFBF69', 
-      pattern: 'sparkles'
-    },
-    'Speak Now Era': { 
-      bgColor: '#7209B7', 
-      textColor: '#F8F9FA', 
-      emoji: '💜', 
-      borderColor: '#9B37CC',
-      gradientColor: '#9851D2', 
-      pattern: 'hearts'
-    },
-    'Red Era': { 
-      bgColor: '#D00000', 
-      textColor: '#F8F9FA', 
-      emoji: '🧣', 
-      borderColor: '#E33838',
-      gradientColor: '#E53935', 
-      pattern: 'scarves'
-    },
-    '1989 Era': { 
-      bgColor: '#4EA8DE', 
-      textColor: '#F8F9FA', 
-      emoji: '🌊', 
-      borderColor: '#89C2E8',
-      gradientColor: '#64B5E8', 
-      pattern: 'waves'
-    },
-    'Reputation Era': { 
-      bgColor: '#1A1A1A', 
-      textColor: '#F8F9FA', 
-      emoji: '🐍', 
-      borderColor: '#444444',
-      gradientColor: '#333333', 
-      pattern: 'snakes'
-    },
-    'Lover Era': { 
-      bgColor: '#FF87AB', 
-      textColor: '#3A0CA3', 
-      emoji: '💕', 
-      borderColor: '#FFB3C8',
-      gradientColor: '#FFA3BD', 
-      pattern: 'hearts'
-    },
-    'Folklore Era': { 
-      bgColor: '#606C38', 
-      textColor: '#FEFAE0', 
-      emoji: '🌲', 
-      borderColor: '#7D8A4F',
-      gradientColor: '#758251', 
-      pattern: 'trees'
-    },
-    'Evermore Era': { 
-      bgColor: '#582F0E', 
-      textColor: '#FAEDCD', 
-      emoji: '🍂', 
-      borderColor: '#7F4F2A',
-      gradientColor: '#74462A', 
-      pattern: 'leaves'
-    },
-    'Midnights Era': { 
-      bgColor: '#2F3E46', 
-      textColor: '#CAD2C5', 
-      emoji: '🌙', 
-      borderColor: '#52666F',
-      gradientColor: '#435761', 
-      pattern: 'stars'
-    },
-    'The Tortured Poets Department Era': { 
-      bgColor: '#212529', 
-      textColor: '#E9ECEF', 
-      emoji: '📝', 
-      borderColor: '#495057',
-      gradientColor: '#343A40', 
-      pattern: 'notes'
-    }
-  };
-  
-  // 如果找不到對應的時代風格，使用默認風格
-  const style = eraStyles[eraName] || { 
-    bgColor: '#0077B6', 
-    textColor: '#F8F9FA', 
-    emoji: '🎵', 
-    borderColor: '#4A9FCA', 
-    gradientColor: '#3D99CC',
-    pattern: 'notes'
-  };
-  
-  // 取得歌單
-  const songList = document.querySelectorAll('#songList li');
-  let songs = [];
-  if (songList.length > 0) {
-    // 最多顯示5首歌曲
-    for (let i = 0; i < Math.min(songList.length, 5); i++) {
-      songs.push(songList[i].textContent.trim());
-    }
-  } else {
-    // 如果沒有歌曲列表，使用預設歌曲
-    const defaultSongs = {
-      'Debut Era': ['Tim McGraw', 'Teardrops on My Guitar', 'Our Song'],
-      'Fearless Era': ['Love Story', 'You Belong With Me', 'Fifteen'],
-      'Speak Now Era': ['Mine', 'Back to December', 'Mean'],
-      'Red Era': ['We Are Never Ever Getting Back Together', '22', 'All Too Well'],
-      '1989 Era': ['Shake It Off', 'Blank Space', 'Bad Blood'],
-      'Reputation Era': ['Look What You Made Me Do', 'Ready For It?', 'Delicate'],
-      'Lover Era': ['ME!', 'You Need To Calm Down', 'Lover'],
-      'Folklore Era': ['Cardigan', 'August', 'Betty'],
-      'Evermore Era': ['Willow', 'No Body, No Crime', 'Champagne Problems'],
-      'Midnights Era': ['Anti-Hero', 'Lavender Haze', 'Snow On The Beach'],
-      'The Tortured Poets Department Era': ['Fortnight', 'The Smallest Man Who Ever Lived', 'Down Bad']
-    };
-    songs = defaultSongs[eraName] || ['Style', 'Blank Space', 'Anti-Hero'];
-  }
-  
-  // 建立 canvas
-  const canvas = document.createElement('canvas');
-  canvas.width = 1200;
-  canvas.height = 630;
-  const ctx = canvas.getContext('2d');
-  
-  // 繪製背景
-  const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
-  gradient.addColorStop(0, style.bgColor);
-  gradient.addColorStop(1, style.gradientColor);
-  ctx.fillStyle = gradient;
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-  
-  // 添加圖案
-  function drawPattern(pattern) {
-    ctx.fillStyle = `rgba(255, 255, 255, 0.05)`;
+    // 獲取當前的時代結果
+    const eraName = document.getElementById('eraName').textContent;
     
-    switch(pattern) {
-      case 'stars':
-        for (let i = 0; i < 30; i++) {
-          const x = Math.random() * canvas.width;
-          const y = Math.random() * canvas.height;
-          const size = Math.random() * 5 + 1;
-          
-          ctx.beginPath();
-          ctx.moveTo(x, y - size);
-          for (let j = 0; j < 5; j++) {
-            ctx.rotate(Math.PI * 2 / 5);
-            ctx.lineTo(x, y - size * 2);
-            ctx.lineTo(x, y - size);
-          }
-          ctx.fill();
-        }
-        break;
+    // 定義每個時代結果對應的圖片網址
+    const eraImages = {
+      'Debut Era': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747838494/r1_dmorik.jpg',
+      'Fearless Era': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747838496/r2_stzs0f.png',
+      'Speak Now Era': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747838496/r3_qxnikx.jpg',
+      'Red Era': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747838498/r4_jzdgoj.jpg',
+      '1989 Era': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747838500/r5_a3zyad.jpg',
+      'Reputation Era': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747838502/r6_tktjoz.jpg',
+      'Lover Era': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747838503/r7_rvvnol.jpg',
+      'Folklore Era': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747838505/r8_btsxco.jpg',
+      'Evermore Era': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747838507/r9_hpievo.jpg',
+      'Midnights Era': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747838509/r10_ewqkhs.jpg',
+      'The Tortured Poets Department Era': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747838510/r11_hr5jxi.jpg'
+    };
+    
+    // 根據時代結果獲取適當的圖片網址
+    const imageUrl = eraImages[eraName]|| 'https://res.cloudinary.com/da3bvump4/image/upload/v1747837000/t2_w4iqlm.jpg';
+    
+    // 從網址獲取圖片並下載
+    fetch(imageUrl)
+      .then(response => response.blob())
+      .then(blob => {
+        // 創建 URL 物件
+        const blobUrl = URL.createObjectURL(blob);
         
-      case 'hearts':
-        for (let i = 0; i < 20; i++) {
-          const x = Math.random() * canvas.width;
-          const y = Math.random() * canvas.height;
-          const size = Math.random() * 15 + 5;
-          
-          ctx.beginPath();
-          ctx.moveTo(x, y);
-          ctx.bezierCurveTo(x - size, y - size, x - size * 2, y + size / 2, x, y + size);
-          ctx.bezierCurveTo(x + size * 2, y + size / 2, x + size, y - size, x, y);
-          ctx.fill();
-        }
-        break;
+        // 創建一個臨時連結來下載圖片
+        const link = document.createElement('a');
+        link.href = blobUrl;
+        link.download = `TheErasTour-${eraName.toLowerCase().replace(/\s+/g, '-')}-Result.jpg`;
         
-      case 'waves':
-        for (let i = 0; i < 5; i++) {
-          const y = 100 + i * 120;
-          ctx.beginPath();
-          ctx.moveTo(0, y);
-          
-          for (let x = 0; x <= canvas.width; x += 20) {
-            ctx.lineTo(x, y + Math.sin(x / 50) * 15);
-          }
-          
-          ctx.lineTo(canvas.width, y);
-          ctx.lineTo(canvas.width, y + 30);
-          ctx.lineTo(0, y + 30);
-          ctx.closePath();
-          ctx.fill();
-        }
-        break;
+        // 觸發下載
+        document.body.appendChild(link);
+        link.click();
         
-      case 'notes':
-      default:
-        for (let i = 0; i < 30; i++) {
-          const x = Math.random() * canvas.width;
-          const y = Math.random() * canvas.height;
-          const size = Math.random() * 15 + 10;
-          
-          // 音符
-          ctx.beginPath();
-          ctx.arc(x, y, size / 3, 0, Math.PI * 2);
-          ctx.fill();
-          
-          ctx.beginPath();
-          ctx.moveTo(x + size / 3, y);
-          ctx.lineTo(x + size / 3, y - size);
-          ctx.lineWidth = 2;
-          ctx.strokeStyle = `rgba(255, 255, 255, 0.1)`;
-          ctx.stroke();
-        }
-        break;
-    }
+        // 移除臨時元素並釋放 URL
+        document.body.removeChild(link);
+        URL.revokeObjectURL(blobUrl);
+        
+        // 顯示成功訊息
+        alert('您的結果圖片正在下載！');
+      })
+      .catch(error => {
+        console.error('下載圖片時發生錯誤:', error);
+        alert('下載圖片時發生錯誤，請稍後再試。');
+      });
   }
-  
-  drawPattern(style.pattern);
-  
-  // 添加邊框
-  ctx.strokeStyle = style.borderColor;
-  ctx.lineWidth = 20;
-  ctx.strokeRect(10, 10, canvas.width - 20, canvas.height - 20);
-  
-  // 設置文字樣式
-  ctx.fillStyle = style.textColor;
-  ctx.textAlign = 'center';
-  
-  // 添加 "Taylor Swift Quiz Result" 標題
-  ctx.font = 'bold 48px Arial, sans-serif';
-  ctx.fillText('Taylor Swift Quiz Result', canvas.width / 2, 80);
-  
-  // 添加分割線
-  ctx.strokeStyle = style.textColor;
-  ctx.lineWidth = 3;
-  ctx.beginPath();
-  ctx.moveTo(300, 100);
-  ctx.lineTo(900, 100);
-  ctx.stroke();
-  
-  // 添加大標題: "You are a [Era Name]!"
-  ctx.font = 'bold 60px Arial, sans-serif';
-  ctx.fillText(`You are a`, canvas.width / 2, 170);
-  
-  // 添加時代名稱 (稍微大一點且突出顯示)
-  ctx.font = 'bold 72px Arial, sans-serif';
-  ctx.fillText(`${eraName}!`, canvas.width / 2, 250);
-  
-  // 添加表情符號
-  ctx.font = '60px Arial, sans-serif';
-  ctx.fillText(style.emoji.repeat(3), canvas.width / 2, 320);
-  
-  // 添加結果描述 (截斷以適應圖片)
-  ctx.font = '24px Arial, sans-serif';
-  
-  // 如果描述太長，分成多行
-  const words = resultDescription.split(' ');
-  let lines = [];
-  let currentLine = '';
-  
-  for (let word of words) {
-    if (currentLine.length + word.length + 1 <= 45) { // 調整這個數字以控制每行長度
-      currentLine += (currentLine ? ' ' : '') + word;
-    } else {
-      lines.push(currentLine);
-      currentLine = word;
-    }
-  }
-  
-  if (currentLine) {
-    lines.push(currentLine);
-  }
-  
-  // 繪製描述文字 (最多3行)
-  lines = lines.slice(0, 3);
-  let y = 380;
-  for (let line of lines) {
-    ctx.fillText(line, canvas.width / 2, y);
-    y += 40;
-  }
-  
-  // 添加歌單標題
-  ctx.font = 'bold 28px Arial, sans-serif';
-  ctx.fillText('Your Playlist:', canvas.width / 2, y + 20);
-  
-  // 添加歌曲列表
-  ctx.font = '22px Arial, sans-serif';
-  y += 60;
-  for (let i = 0; i < songs.length; i++) {
-    ctx.fillText(songs[i], canvas.width / 2, y);
-    y += 30;
-  }
-  
-  // 添加網站名稱和日期
-  ctx.font = '20px Arial, sans-serif';
-  ctx.fillText('www.theErasTour.com', canvas.width / 2, canvas.height - 60);
-  
-  const today = new Date();
-  const dateStr = today.toLocaleDateString('zh-TW');
-  ctx.fillText(dateStr, canvas.width / 2, canvas.height - 30);
-  
-  try {
-    // 轉換 canvas 為 blob
-    canvas.toBlob(function(blob) {
-      if (!blob) {
-        throw new Error("無法創建圖片 blob");
-      }
-      
-      // 創建下載連結
-      const blobUrl = URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = blobUrl;
-      link.download = `TSwift_${eraName.replace(/\s+/g, '_')}_EraReveal_${Math.floor(Date.now()/1000).toString().slice(-5)}.jpg`;
-      
-      // 觸發下載
-      document.body.appendChild(link);
-      link.click();
-      
-      // 清理
-      document.body.removeChild(link);
-      URL.revokeObjectURL(blobUrl);
-      document.body.removeChild(loadingMessage);
-      
-      alert('您的結果圖片已成功下載！');
-    }, 'image/jpeg', 0.95);  // 指定 JPEG 格式，品質 95%
-  } catch (e) {
-    console.error('處理圖片時發生錯誤:', e);
-    document.body.removeChild(loadingMessage);
-    alert('處理圖片時發生錯誤，請稍後再試。');
-  }
-}
 </script>
 
 </body>
