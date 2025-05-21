@@ -272,70 +272,100 @@
 
 <!-- 結果下載腳本 -->
 <script>
-  function downloadResult() {
-    // 獲取當前的時代結果
-    const eraName = document.getElementById('eraName').textContent;
-    console.log("獲取到的時代名稱:", eraName); // 添加調試輸出
+function downloadResult() {
+  // Get the current era result
+  const eraName = document.getElementById('eraName').textContent;
+  console.log("Retrieved era name:", eraName);
+  
+  // Define image URLs for each era result
+  const eraImages = {
+    'Debut Era': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747838494/r1_dmorik.jpg',
+    'Fearless Era': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747838496/r2_stzs0f.png',
+    'Speak Now Era': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747838496/r3_qxnikx.jpg',
+    'Red Era': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747838498/r4_jzdgoj.jpg',
+    '1989 Era': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747838500/r5_a3zyad.jpg',
+    'Reputation Era': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747838502/r6_tktjoz.jpg',
+    'Lover Era': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747838503/r7_rvvnol.jpg',
+    'Folklore Era': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747838505/r8_btsxco.jpg',
+    'Evermore Era': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747838507/r9_hpievo.jpg',
+    'Midnights Era': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747838509/r10_ewqkhs.jpg',
+    'The Tortured Poets Department Era': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747838510/r11_hr5jxi.jpg'
+  };
+  
+  // Check era name and get appropriate image URL
+  const imageUrl = eraImages[eraName];
+  
+  // If no matching image is found, use a default image or show an error
+  if (!imageUrl) {
+    console.error(`Could not find image URL for "${eraName}"`);
+    alert(`Could not find an image for "${eraName}", please try again later.`);
+    return;
+  }
+  
+  // Create a loading indicator
+  const loadingMessage = document.createElement('div');
+  loadingMessage.textContent = 'Preparing your image...';
+  loadingMessage.style.position = 'fixed';
+  loadingMessage.style.top = '50%';
+  loadingMessage.style.left = '50%';
+  loadingMessage.style.transform = 'translate(-50%, -50%)';
+  loadingMessage.style.padding = '20px';
+  loadingMessage.style.backgroundColor = 'rgba(0,0,0,0.7)';
+  loadingMessage.style.color = 'white';
+  loadingMessage.style.borderRadius = '10px';
+  loadingMessage.style.zIndex = '9999';
+  document.body.appendChild(loadingMessage);
+  
+  // Create an image element to ensure the image is fully loaded
+  const img = new Image();
+  img.crossOrigin = "Anonymous";  // This is critical for handling CORS issues
+  
+  img.onload = function() {
+    // Create a canvas to handle the image data
+    const canvas = document.createElement('canvas');
+    canvas.width = img.width;
+    canvas.height = img.height;
     
-    // 定義每個時代結果對應的圖片網址
-    const eraImages = {
-      'Debut Era': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747838494/r1_dmorik.jpg',
-      'Fearless Era': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747838496/r2_stzs0f.png',
-      'Speak Now Era': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747838496/r3_qxnikx.jpg',
-      'Red Era': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747838498/r4_jzdgoj.jpg',
-      '1989 Era': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747838500/r5_a3zyad.jpg',
-      'Reputation Era': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747838502/r6_tktjoz.jpg',
-      'Lover Era': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747838503/r7_rvvnol.jpg',
-      'Folklore Era': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747838505/r8_btsxco.jpg',
-      'Evermore Era': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747838507/r9_hpievo.jpg',
-      'Midnights Era': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747838509/r10_ewqkhs.jpg',
-      'The Tortured Poets Department Era': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747838510/r11_hr5jxi.jpg'
-    };
+    // Draw the image onto the canvas
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(img, 0, 0);
     
-    // 檢查時代名稱並獲取適當的圖片網址
-    const imageUrl = eraImages[eraName];
-    
-    // 如果找不到對應的圖片，使用默認圖片
-    if (!imageUrl) {
-      console.error(`找不到對應 "${eraName}" 的圖片網址`);
-      alert(`無法找到 "${eraName}" 的圖片，請稍後再試。`);
-      return; // 提前退出函數
-    }
-    
-    // 從網址獲取圖片並下載
-    fetch(imageUrl)
-      .then(response => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        return response.blob();
-      })
-      .then(blob => {
-        // 創建 URL 物件
+    try {
+      // Convert canvas to blob (specifically as image/jpeg format)
+      canvas.toBlob(function(blob) {
+        // Create a download link for the blob
         const blobUrl = URL.createObjectURL(blob);
-        
-        // 創建一個臨時連結來下載圖片
         const link = document.createElement('a');
         link.href = blobUrl;
-        // 更特別的檔名
         link.download = `TSwift_${eraName.replace(/\s+/g, '_')}_EraReveal_${Math.floor(Date.now()/1000).toString().slice(-5)}.jpg`;
         
-        // 觸發下載
+        // Trigger download
         document.body.appendChild(link);
         link.click();
         
-        // 移除臨時元素並釋放 URL
+        // Clean up
         document.body.removeChild(link);
         URL.revokeObjectURL(blobUrl);
+        document.body.removeChild(loadingMessage);
         
-        // 顯示成功訊息
-        alert('您的結果圖片正在下載！');
-      })
-      .catch(error => {
-        console.error('下載圖片時發生錯誤:', error);
-        alert('下載圖片時發生錯誤，請稍後再試。');
-      });
-  }
+        alert('Your result image has been downloaded!');
+      }, 'image/jpeg', 0.95);  // Specify JPEG format with 95% quality
+    } catch (e) {
+      console.error('Error during canvas processing:', e);
+      document.body.removeChild(loadingMessage);
+      alert('There was an error processing your image. Please try again later.');
+    }
+  };
+  
+  img.onerror = function() {
+    console.error('Image failed to load from URL:', imageUrl);
+    document.body.removeChild(loadingMessage);
+    alert('Failed to load the image. Please try again later.');
+  };
+  
+  // Set the image source to start loading
+  img.src = imageUrl;
+}
 </script>
 
 </body>
