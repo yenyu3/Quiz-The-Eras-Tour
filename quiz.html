@@ -275,6 +275,7 @@
   function downloadResult() {
     // 獲取當前的時代結果
     const eraName = document.getElementById('eraName').textContent;
+    console.log("獲取到的時代名稱:", eraName); // 添加調試輸出
     
     // 定義每個時代結果對應的圖片網址
     const eraImages = {
@@ -291,13 +292,24 @@
       'The Tortured Poets Department Era': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747838510/r11_hr5jxi.jpg'
     };
     
-    // 根據時代結果獲取適當的圖片網址
+    // 檢查時代名稱並獲取適當的圖片網址
     const imageUrl = eraImages[eraName];
-    //|| 'https://res.cloudinary.com/da3bvump4/image/upload/v1747837000/t2_w4iqlm.jpg'
+    
+    // 如果找不到對應的圖片，使用默認圖片
+    if (!imageUrl) {
+      console.error(`找不到對應 "${eraName}" 的圖片網址`);
+      alert(`無法找到 "${eraName}" 的圖片，請稍後再試。`);
+      return; // 提前退出函數
+    }
     
     // 從網址獲取圖片並下載
     fetch(imageUrl)
-      .then(response => response.blob())
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.blob();
+      })
       .then(blob => {
         // 創建 URL 物件
         const blobUrl = URL.createObjectURL(blob);
@@ -305,7 +317,8 @@
         // 創建一個臨時連結來下載圖片
         const link = document.createElement('a');
         link.href = blobUrl;
-        link.download = `TheErasTour-${eraName.toLowerCase().replace(/\s+/g, '-')}-Result.jpg`;
+        // 更特別的檔名
+        link.download = `TSwift_${eraName.replace(/\s+/g, '_')}_EraReveal_${Math.floor(Date.now()/1000).toString().slice(-5)}.jpg`;
         
         // 觸發下載
         document.body.appendChild(link);
