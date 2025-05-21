@@ -2384,6 +2384,7 @@ body {
   }
 }
 
+/* 在 @media (max-width: 768px) 區塊中添加或修改以下代碼 */
 @media (max-width: 768px) {
   .result-container .row {
     flex-direction: column;
@@ -2399,5 +2400,61 @@ body {
   
   .playlist-container {
     max-height: 200px;
+  }
+  
+  
+  /* 修改 Stats 相關響應式樣式 */
+  .stats-section .row {
+    justify-content: center;
+    text-align: center;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .stats-section .col {
+    margin-bottom: 15px;
+    padding: 0 8px;
+    flex: 0 0 50%;
+    max-width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .stat-number {
+    font-size: 1.2rem;
+    text-align: center;
+    display: block;
+    width: 100%;
+  }
+  
+  .stat-label {
+    font-size: 0.85rem;
+    text-align: center;
+    display: block;
+    width: 100%;
+  }
+}
+
+/* 修改更小螢幕的樣式調整 */
+@media (max-width: 576px) {
+  .stats-section {
+    padding: 15px 10px;
+  }
+  
+  .stats-section .row {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    gap: 8px;
+  }
+  
+  .stats-section .col {
+    flex: 0 0 100%;
+    max-width: 100%;
+    margin-bottom: 8px;
+    padding: 0;
   }
 }
