@@ -270,11 +270,19 @@
 <script src="assets/js/main.js"></script>
 
 
-<!-- 結果下載腳本 -->
+<!-- 結果下載腳本 - 修正版 -->
 <script>
   function downloadResult() {
-    // 獲取當前的時代結果
-    const eraName = document.getElementById('eraName').textContent;
+    // 獲取當前的時代結果並除去前後可能的空格
+    const eraNameElement = document.getElementById('eraName');
+    if (!eraNameElement) {
+      console.error("找不到 'eraName' 元素");
+      alert("無法找到結果元素，請稍後再試。");
+      return;
+    }
+    
+    const eraName = eraNameElement.textContent.trim();
+    console.log("獲取到的時代名稱:", eraName); // 調試輸出
     
     // 定義每個時代結果對應的圖片網址
     const eraImages = {
@@ -291,12 +299,39 @@
       'The Tortured Poets Department Era': 'https://res.cloudinary.com/da3bvump4/image/upload/v1747838510/r11_hr5jxi.jpg'
     };
     
-    // 根據時代結果獲取適當的圖片網址
-    const imageUrl = eraImages[eraName]|| 'https://res.cloudinary.com/da3bvump4/image/upload/v1747837000/t2_w4iqlm.jpg';
+    // 輸出所有可用的Era鍵，方便調試
+    console.log("可用的Era鍵:", Object.keys(eraImages));
+    
+    // 檢查是否匹配
+    let imageUrl = eraImages[eraName];
+    
+    // 如果直接匹配失敗，嘗試不區分大小寫的匹配
+    if (!imageUrl) {
+      const lowerCaseEraName = eraName.toLowerCase();
+      for (const [key, url] of Object.entries(eraImages)) {
+        if (key.toLowerCase() === lowerCaseEraName) {
+          imageUrl = url;
+          break;
+        }
+      }
+    }
+    
+    // 如果找不到對應的圖片，使用默認圖片
+    if (!imageUrl) {
+      console.warn(`找不到對應 "${eraName}" 的圖片網址，使用默認圖片`);
+      imageUrl = 'https://res.cloudinary.com/da3bvump4/image/upload/v1747837000/t2_w4iqlm.jpg';
+    } else {
+      console.log(`成功找到對應 "${eraName}" 的圖片網址: ${imageUrl}`);
+    }
     
     // 從網址獲取圖片並下載
     fetch(imageUrl)
-      .then(response => response.blob())
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.blob();
+      })
       .then(blob => {
         // 創建 URL 物件
         const blobUrl = URL.createObjectURL(blob);
@@ -304,7 +339,7 @@
         // 創建一個臨時連結來下載圖片
         const link = document.createElement('a');
         link.href = blobUrl;
-        link.download = `TheErasTour-${eraName.toLowerCase().replace(/\s+/g, '-')}-Result.jpg`;
+        link.download = `TSwift_${eraName.replace(/\s+/g, '_')}_EraReveal_${Math.floor(Date.now()/1000).toString().slice(-5)}.jpg`;
         
         // 觸發下載
         document.body.appendChild(link);
