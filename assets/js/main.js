@@ -873,25 +873,44 @@ document.addEventListener('DOMContentLoaded', function() {
     fetchStatsFromFirebase();
 
     // Share result functions
-    window.shareResult = function(platform) {
-    const shareText = `I'm a ${eraResults[calculateResult()].name}! Discover your Taylor Swift Era personality!`;
-    const shareUrl = window.location.href;
-    
-    let shareLink = '';
-    switch (platform) {
-      case 'facebook':
+window.shareResult = function(platform) {
+  const shareText = `I'm a ${eraResults[calculateResult()].name}! Discover your Taylor Swift Era personality!`;
+  const shareUrl = window.location.href;
+  
+  let shareLink = '';
+  switch (platform) {
+    case 'facebook':
       shareLink = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}&quote=${encodeURIComponent(shareText)}`;
       window.open(shareLink, '_blank');
       break;
-      case 'twitter':
+    case 'twitter':
       shareLink = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`;
       window.open(shareLink, '_blank');
       break;
-      case 'instagram':
+    case 'instagram':
+      // 先顯示提示
       alert('Screenshot your result and share it on your Instagram story or post!');
+      // 然後在短暫延遲後打開Instagram
+      setTimeout(() => {
+        // 嘗試打開Instagram應用（在移動設備上）
+        const instagramUrl = 'instagram://';
+        const webInstagramUrl = 'https://www.instagram.com/';
+        
+        // 創建一個隱藏的iframe來嘗試打開Instagram應用
+        const iframe = document.createElement('iframe');
+        iframe.style.display = 'none';
+        iframe.src = instagramUrl;
+        document.body.appendChild(iframe);
+        
+        // 如果無法在500ms內打開應用，則重定向到網頁版
+        setTimeout(() => {
+          document.body.removeChild(iframe);
+          window.open(webInstagramUrl, '_blank');
+        }, 500);
+      }, 1000); // 1秒後執行
       break;
-    }
-    }
+  }
+}
     
     // Copy link function
     window.copyLink = function() {
